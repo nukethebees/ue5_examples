@@ -48,7 +48,7 @@ void AMassEntitySpawner::CreateArchetype(UMassEntitySubsystem& MassEntitySubsyst
     Descriptor.ConstSharedFragments.Add(*FMassVelocityConstSharedFragment::StaticStruct());
 
     auto CreationParams{FMassArchetypeCreationParams{}};
-    CreationParams.DebugName = FName(TEXT("bullet_archetype"));
+    CreationParams.DebugName = FName(TEXT("ExampleArchetype"));
 
     Archetype = EntityManager.CreateArchetype(Descriptor, CreationParams);
 }
