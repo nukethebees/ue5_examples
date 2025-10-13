@@ -7,8 +7,8 @@ public class mass_simplified_api : ModuleRules
 	public mass_simplified_api(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "MassEntity", "MassCommon" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
