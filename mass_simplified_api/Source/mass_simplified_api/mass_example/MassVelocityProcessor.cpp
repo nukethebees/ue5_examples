@@ -20,9 +20,8 @@ void FMassVelocityExecutor::Execute(FMassExecutionContext& Context) {
 }
 
 UMassVelocityProcessor::UMassVelocityProcessor()
-    : EntityQuery(*this) {
-    Executor = UE::Mass::FQueryExecutor::CreateQuery<FMassVelocityExecutor>(EntityQuery, this);
-
+    : EntityQuery(*this)
+    , Executor(UE::Mass::FQueryExecutor::CreateQuery<FMassVelocityExecutor>(EntityQuery, this)) {
     AutoExecuteQuery = Executor;
 
     ExecutionOrder.ExecuteInGroup = UE::Mass::ProcessorGroupNames::Movement;
