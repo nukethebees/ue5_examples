@@ -4,7 +4,7 @@
 #include "MassExecutionContext.h"
 
 void FMassVelocityExecutor::Execute(FMassExecutionContext& Context) {
-    constexpr auto Executor{[](FMassExecutionContext& context, auto& Data) {
+    constexpr auto Executor{[](FMassExecutionContext& context, Query& query) {
         auto const N{context.GetNumEntities()};
         auto const DeltaTime{context.GetDeltaTimeSeconds()};
         auto const Transforms{context.GetMutableFragmentView<FMassTransformFragment>()};
