@@ -4,3 +4,4 @@
 **/DerivedDataCache/
 **/Binaries/
 **/.vsconfig
+*.sln
