@@ -5,3 +5,5 @@
 **/Binaries/
 **/.vsconfig
 *.sln
+**/Content/__ExternalActors__
+**/Content/__ExternalObjects__
