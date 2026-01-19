@@ -1,5 +1,7 @@
 #include "ticking_actor_editor/EditorTickingActor.h"
 
+#include "Components/SceneComponent.h"
+
 AEditorTickingActor::AEditorTickingActor() {
 #if WITH_EDITOR
     PrimaryActorTick.bCanEverTick = true;
