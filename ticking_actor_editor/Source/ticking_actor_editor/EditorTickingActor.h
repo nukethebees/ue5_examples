@@ -16,6 +16,6 @@ class AEditorTickingActor : public AActor {
     virtual void Tick(float delta_time) override;
 
 #if WITH_EDITOR
-    virtual bool ShouldTickIfViewportsOnly() const { return true; }
+    virtual bool ShouldTickIfViewportsOnly() const override { return true; }
 #endif
 };
