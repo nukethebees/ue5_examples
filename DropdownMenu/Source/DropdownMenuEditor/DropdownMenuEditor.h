@@ -3,7 +3,6 @@
 #include "Templates/SharedPointer.h"
 
 #include "Modules/ModuleInterface.h"
-#include "Modules/ModuleManager.h"
 
 class FMenuBarBuilder;
 class FMenuBuilder;
