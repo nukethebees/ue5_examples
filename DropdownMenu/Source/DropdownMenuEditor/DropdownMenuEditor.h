@@ -1,10 +1,13 @@
 #pragma once
 
+#include "Templates/SharedPointer.h"
+
 #include "Modules/ModuleInterface.h"
 #include "Modules/ModuleManager.h"
 
 class FMenuBarBuilder;
 class FMenuBuilder;
+class FExtender;
 
 class FDropdownMenuEditorModule : public IModuleInterface {
   public:
@@ -18,6 +21,8 @@ class FDropdownMenuEditorModule : public IModuleInterface {
 
     static void ExampleStaticFn();
     void ExampleMemberFn();
+
+    TSharedPtr<FExtender> toolbar_menu_extender;
 };
 
 void ExampleFreeFn();

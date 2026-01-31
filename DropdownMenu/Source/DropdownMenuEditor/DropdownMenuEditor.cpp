@@ -11,10 +11,19 @@ void FDropdownMenuEditorModule::StartupModule() {
     CreateDropdownMenu();
 }
 
-void FDropdownMenuEditorModule::ShutdownModule() {}
+void FDropdownMenuEditorModule::ShutdownModule() {
+    if (toolbar_menu_extender.IsValid() && FModuleManager::Get().IsModuleLoaded("LevelEditor")) {
+        auto& level_editor_module{
+            FModuleManager::GetModuleChecked<FLevelEditorModule>("LevelEditor")};
+
+        level_editor_module.GetMenuExtensibilityManager()->RemoveExtender(toolbar_menu_extender);
+    }
+
+    toolbar_menu_extender.Reset();
+}
 
 void FDropdownMenuEditorModule::CreateDropdownMenu() {
-    auto const toolbar_menu_extender{MakeShared<FExtender>()};
+    toolbar_menu_extender = MakeShared<FExtender>();
     toolbar_menu_extender->AddMenuBarExtension(
         "Help",
         EExtensionHook::After,
@@ -40,26 +49,23 @@ void FDropdownMenuEditorModule::CreateDropdownMenuExtensionButtons(FMenuBuilder&
                               FUIAction(FExecuteAction::CreateLambda(
                                   []() { UE_LOG(LogTemp, Log, TEXT("In a lambda function!")); })));
 
-    menu_builder.AddSubMenu(LOCTEXT("ExampleMenuSubmenu_Label", "Example Submenu"),
-                            LOCTEXT("ExampleMenuSubmenu_Tooltip", "Example Submenu Tooltip"),
-                            FNewMenuDelegate::CreateLambda([&](FMenuBuilder& submenu_builder) {
-                                submenu_builder.AddMenuEntry(
-                                    LOCTEXT("ExampleMenuStatic_Label",
-                                            "Example Button (static fn)"),
-                                    LOCTEXT("ExampleMenuStatic_Tooltip",
-                                            "Example Button (static fn) Tooltip"),
-                                    FSlateIcon(),
-                                    FUIAction(FExecuteAction::CreateStatic(
-                                        &FDropdownMenuEditorModule::ExampleStaticFn)));
-                                submenu_builder.AddMenuEntry(
-                                    LOCTEXT("ExampleMenuMemberFn_Label",
-                                            "Example Button (member fn)"),
-                                    LOCTEXT("ExampleMenuMemberFn_Tooltip",
-                                            "Example Button (member fn) Tooltip"),
-                                    FSlateIcon(),
-                                    FUIAction(FExecuteAction::CreateRaw(
-                                        this, &FDropdownMenuEditorModule::ExampleMemberFn)));
-                            }));
+    menu_builder.AddSubMenu(
+        LOCTEXT("ExampleMenuSubmenu_Label", "Example Submenu"),
+        LOCTEXT("ExampleMenuSubmenu_Tooltip", "Example Submenu Tooltip"),
+        FNewMenuDelegate::CreateLambda([&](FMenuBuilder& submenu_builder) {
+            submenu_builder.AddMenuEntry(
+                LOCTEXT("ExampleMenuStatic_Label", "Example Button (static fn)"),
+                LOCTEXT("ExampleMenuStatic_Tooltip", "Example Button (static fn) Tooltip"),
+                FSlateIcon(),
+                FUIAction(
+                    FExecuteAction::CreateStatic(&FDropdownMenuEditorModule::ExampleStaticFn)));
+            submenu_builder.AddMenuEntry(
+                LOCTEXT("ExampleMenuMemberFn_Label", "Example Button (member fn)"),
+                LOCTEXT("ExampleMenuMemberFn_Tooltip", "Example Button (member fn) Tooltip"),
+                FSlateIcon(),
+                FUIAction(
+                    FExecuteAction::CreateRaw(this, &FDropdownMenuEditorModule::ExampleMemberFn)));
+        }));
     menu_builder.AddMenuEntry(LOCTEXT("ExampleMenuFreeFn_Label", "Example Button (free fn)"),
                               LOCTEXT("ExampleMenuFreeFn_Tooltip", "Example Button (free fn)"),
                               FSlateIcon(),
