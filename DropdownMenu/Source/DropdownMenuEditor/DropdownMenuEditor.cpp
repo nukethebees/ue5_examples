@@ -3,7 +3,7 @@
 #include "LevelEditor.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_GAME_MODULE(FDropdownMenuEditorModule, DropdownMenuEditor);
+IMPLEMENT_MODULE(FDropdownMenuEditorModule, DropdownMenuEditor);
 
 void FDropdownMenuEditorModule::StartupModule() {
     CreateDropdownMenu();
