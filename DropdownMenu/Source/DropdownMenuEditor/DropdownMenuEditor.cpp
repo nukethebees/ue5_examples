@@ -5,6 +5,8 @@
 
 IMPLEMENT_MODULE(FDropdownMenuEditorModule, DropdownMenuEditor);
 
+#define LOCTEXT_NAMESPACE "DropdownMenuEditor"
+
 void FDropdownMenuEditorModule::StartupModule() {
     CreateDropdownMenu();
 }
@@ -26,36 +28,40 @@ void FDropdownMenuEditorModule::CreateDropdownMenu() {
 }
 void FDropdownMenuEditorModule::CreateDropdownMenuExtension(FMenuBarBuilder& menu_bar_builder) {
     menu_bar_builder.AddPullDownMenu(
-        FText::FromString("Example Menu"),
-        FText::FromString("An example menu"),
+        LOCTEXT("ExampleMenu_Label", "Example Menu"),
+        LOCTEXT("ExampleMenu_Tooltip", "An example menu"),
         FNewMenuDelegate::CreateRaw(
             this, &FDropdownMenuEditorModule::CreateDropdownMenuExtensionButtons));
 }
 void FDropdownMenuEditorModule::CreateDropdownMenuExtensionButtons(FMenuBuilder& menu_builder) {
-    menu_builder.AddMenuEntry(FText::FromName(TEXT("Example Button (lambda)")),
-                              FText::FromName(TEXT("Example Button (lambda) Tooltip")),
+    menu_builder.AddMenuEntry(LOCTEXT("ExampleMenuLambda_Label", "Example Button (lambda)"),
+                              LOCTEXT("ExampleMenuLambda_Label", "Example Button (lambda) Tooltip"),
                               FSlateIcon(),
                               FUIAction(FExecuteAction::CreateLambda(
                                   []() { UE_LOG(LogTemp, Log, TEXT("In a lambda function!")); })));
 
-    menu_builder.AddSubMenu(FText::FromName(TEXT("Example Submenu")),
-                            FText::FromName(TEXT("Example Submenu Tooltip")),
+    menu_builder.AddSubMenu(LOCTEXT("ExampleMenuSubmenu_Label", "Example Submenu"),
+                            LOCTEXT("ExampleMenuSubmenu_Tooltip", "Example Submenu Tooltip"),
                             FNewMenuDelegate::CreateLambda([&](FMenuBuilder& submenu_builder) {
                                 submenu_builder.AddMenuEntry(
-                                    FText::FromName(TEXT("Example Button (static fn)")),
-                                    FText::FromName(TEXT("Example Button (static fn) Tooltip")),
+                                    LOCTEXT("ExampleMenuStatic_Label",
+                                            "Example Button (static fn)"),
+                                    LOCTEXT("ExampleMenuStatic_Tooltip",
+                                            "Example Button (static fn) Tooltip"),
                                     FSlateIcon(),
                                     FUIAction(FExecuteAction::CreateStatic(
                                         &FDropdownMenuEditorModule::ExampleStaticFn)));
                                 submenu_builder.AddMenuEntry(
-                                    FText::FromName(TEXT("Example Button (member fn)")),
-                                    FText::FromName(TEXT("Example Button (member fn) Tooltip")),
+                                    LOCTEXT("ExampleMenuMemberFn_Label",
+                                            "Example Button (member fn)"),
+                                    LOCTEXT("ExampleMenuMemberFn_Tooltip",
+                                            "Example Button (member fn) Tooltip"),
                                     FSlateIcon(),
                                     FUIAction(FExecuteAction::CreateRaw(
                                         this, &FDropdownMenuEditorModule::ExampleMemberFn)));
                             }));
-    menu_builder.AddMenuEntry(FText::FromName(TEXT("Example Button (free fn)")),
-                              FText::FromName(TEXT("Example Button (free fn)")),
+    menu_builder.AddMenuEntry(LOCTEXT("ExampleMenuFreeFn_Label", "Example Button (free fn)"),
+                              LOCTEXT("ExampleMenuFreeFn_Tooltip", "Example Button (free fn)"),
                               FSlateIcon(),
                               FUIAction(FExecuteAction::CreateStatic(&ExampleFreeFn)));
 }
@@ -70,3 +76,5 @@ void FDropdownMenuEditorModule::ExampleMemberFn() {
 void ExampleFreeFn() {
     UE_LOG(LogTemp, Log, TEXT("In a free function!"));
 }
+
+#undef LOCTEXT_NAMESPACE
