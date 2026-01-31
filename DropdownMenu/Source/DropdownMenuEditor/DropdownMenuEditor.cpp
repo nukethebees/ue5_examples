@@ -12,15 +12,15 @@ void FDropdownMenuEditorModule::StartupModule() {
 void FDropdownMenuEditorModule::ShutdownModule() {}
 
 void FDropdownMenuEditorModule::CreateDropdownMenu() {
-    auto& level_editor_module{FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor")};
     auto const toolbar_menu_extender{MakeShared<FExtender>()};
-
     toolbar_menu_extender->AddMenuBarExtension(
         "Help",
         EExtensionHook::After,
         nullptr,
         FMenuBarExtensionDelegate::CreateRaw(
             this, &FDropdownMenuEditorModule::CreateDropdownMenuExtension));
+
+    auto& level_editor_module{FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor")};
     auto extensibility_manager{level_editor_module.GetMenuExtensibilityManager()};
     extensibility_manager->AddExtender(toolbar_menu_extender);
 }
